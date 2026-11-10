@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "Speed Dial Vivaldi",
+  "version": "0.1.0",
+  "description": "Page Speed Dial personnalisable basée sur tes signets Vivaldi.",
+  "permissions": ["bookmarks", "storage", "favicon"],
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  }
+}

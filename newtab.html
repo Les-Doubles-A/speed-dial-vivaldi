@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Speed Dial</title>
+  <link rel="stylesheet" href="styles/page.css">
+</head>
+<body>
+  <header class="entete">
+    <nav id="groupes" class="groupes" role="tablist" aria-label="Groupes de signets"></nav>
+    <div class="actions">
+      <button id="bouton-apparence" class="bouton" type="button">Personnaliser</button>
+      <button id="bouton-gerer" class="bouton" type="button">Dossiers et groupes</button>
+    </div>
+  </header>
+
+  <nav id="fil" class="fil" aria-label="Fil d'Ariane"></nav>
+  <p id="statut" class="statut" role="status" aria-live="polite"></p>
+  <main id="grille" class="grille" aria-label="Signets"></main>
+
+  <dialog id="dialogue" aria-labelledby="dialogue-titre">
+    <h2 id="dialogue-titre">Dossiers et groupes</h2>
+    <section aria-labelledby="titre-groupes">
+      <h3 id="titre-groupes">Groupes affichés</h3>
+      <ul id="liste-groupes" class="liste-groupes"></ul>
+    </section>
+    <section aria-labelledby="titre-arbre">
+      <h3 id="titre-arbre">Choisir des dossiers de signets</h3>
+      <div id="arbre" class="arbre"></div>
+    </section>
+    <button id="bouton-fermer" class="bouton" type="button">Fermer</button>
+  </dialog>
+
+  <dialog id="dialogue-apparence" aria-labelledby="apparence-titre">
+    <h2 id="apparence-titre">Personnaliser</h2>
+
+    <div class="champ">
+      <label for="reglage-colonnes">Colonnes maximum (2 à 10)</label>
+      <input id="reglage-colonnes" type="number" min="2" max="10" step="1" inputmode="numeric">
+      <p id="erreur-colonnes" class="erreur-champ" role="alert"></p>
+    </div>
+
+    <div class="champ">
+      <label for="reglage-taille">Taille des tuiles</label>
+      <select id="reglage-taille">
+        <option value="petite">Petite</option>
+        <option value="moyenne">Moyenne</option>
+        <option value="grande">Grande</option>
+      </select>
+    </div>
+
+    <div class="champ">
+      <label for="reglage-theme">Thème</label>
+      <select id="reglage-theme">
+        <option value="auto">Automatique (suit le système)</option>
+        <option value="clair">Clair</option>
+        <option value="sombre">Sombre</option>
+      </select>
+    </div>
+
+    <div class="champ">
+      <label for="reglage-fond-type">Fond</label>
+      <select id="reglage-fond-type">
+        <option value="theme">Couleur du thème</option>
+        <option value="couleur">Couleur unie</option>
+        <option value="degrade">Dégradé</option>
+        <option value="image">Image locale</option>
+      </select>
+    </div>
+    <div class="champ" id="zone-couleur" hidden>
+      <label for="reglage-couleur">Couleur du fond</label>
+      <input id="reglage-couleur" type="color" value="#2860d8">
+    </div>
+    <div class="champ" id="zone-degrade" hidden>
+      <label for="reglage-degrade">Dégradé</label>
+      <select id="reglage-degrade"></select>
+    </div>
+    <div class="champ" id="zone-image" hidden>
+      <label for="reglage-image">Image de fond (5 Mo maximum)</label>
+      <input id="reglage-image" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+      <p id="erreur-image" class="erreur-champ" role="alert"></p>
+      <label for="reglage-voile">Voile sombre sur l'image</label>
+      <input id="reglage-voile" type="range" min="0" max="80" step="5">
+      <p class="aide">Un voile plus foncé améliore la lisibilité sur une image claire.</p>
+    </div>
+
+    <fieldset class="champ sauvegarde">
+      <legend>Sauvegarde des réglages</legend>
+      <p class="aide">Enregistre tes groupes, ta personnalisation et tes images dans un fichier, ou restaure-les depuis un fichier.</p>
+      <div class="actions">
+        <button id="bouton-exporter" class="bouton" type="button">Exporter</button>
+      </div>
+      <label for="champ-import">Importer une sauvegarde</label>
+      <input id="champ-import" type="file" accept="application/json,.json">
+      <p id="message-sauvegarde" class="aide" role="status"></p>
+      <p id="erreur-sauvegarde" class="erreur-champ" role="alert"></p>
+    </fieldset>
+
+    <div class="pied-dialogue">
+      <button id="bouton-reinitialiser" class="bouton" type="button">Réinitialiser</button>
+      <button id="bouton-fermer-apparence" class="bouton" type="button">Fermer</button>
+    </div>
+  </dialog>
+
+  <dialog id="dialogue-tuile" aria-labelledby="titre-dialogue-tuile">
+    <h2 id="titre-dialogue-tuile">Ajouter un site</h2>
+    <form id="formulaire-tuile" novalidate>
+      <div class="champ">
+        <label for="champ-titre">Titre</label>
+        <input id="champ-titre" type="text" maxlength="200" autocomplete="off">
+        <p id="erreur-titre" class="erreur-champ" role="alert"></p>
+      </div>
+      <div class="champ">
+        <label for="champ-adresse">Adresse</label>
+        <input id="champ-adresse" type="text" inputmode="url" autocomplete="off" placeholder="https://">
+        <p id="erreur-adresse" class="erreur-champ" role="alert"></p>
+      </div>
+      <div class="champ">
+        <label for="champ-vignette">Vignette (image, 2 Mo maximum)</label>
+        <input id="champ-vignette" type="file" accept="image/png,image/jpeg,image/webp,image/gif">
+        <p id="etat-vignette" class="aide">Taille conseillée : 440×360 px.</p>
+        <p id="erreur-vignette" class="erreur-champ" role="alert"></p>
+        <button id="bouton-retirer-vignette" class="bouton" type="button" hidden>Retirer la vignette</button>
+      </div>
+      <p id="erreur-enregistrement" class="erreur-champ" role="alert"></p>
+      <div class="pied-dialogue">
+        <button id="bouton-annuler-tuile" class="bouton" type="button">Annuler</button>
+        <button class="bouton" type="submit">Enregistrer</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div id="menu-tuile" class="menu" role="menu" hidden>
+    <button id="menu-modifier" class="menu-element" role="menuitem" type="button">Modifier</button>
+    <button id="menu-supprimer" class="menu-element" role="menuitem" type="button">Supprimer</button>
+  </div>
+
+  <div id="annulation" class="annulation" role="status" hidden>
+    <span id="annulation-texte"></span>
+    <button id="bouton-annuler-suppression" class="bouton" type="button">Annuler</button>
+  </div>
+
+  <script type="module" src="src/interface.js"></script>
+</body>
+</html>
