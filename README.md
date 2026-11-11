@@ -82,7 +82,7 @@ product/           brief, fonctionnalités, architecture, plan, risques et tests
 <!-- installeur-release -->
 ## Installation
 
-Téléchargez **`speed-dial-vivaldi-Setup-0.1.0.exe`** depuis la [dernière release](https://github.com/Les-Doubles-A/speed-dial-vivaldi/releases/latest), puis lancez-le.
+Téléchargez **`speed-dial-vivaldi-Setup-0.1.1.exe`** depuis la [dernière release](https://github.com/Les-Doubles-A/speed-dial-vivaldi/releases/latest), puis lancez-le.
 
 L'installeur copie l'extension dans `%LOCALAPPDATA%\Programs\speed-dial-vivaldi\extension` puis affiche la marche à suivre :
 
